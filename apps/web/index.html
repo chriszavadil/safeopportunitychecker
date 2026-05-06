@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="referrer" content="no-referrer">
+    <title>Safe Opportunity Checker</title>
+    <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/assets/styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar" aria-label="Application header">
+        <div class="brand">
+          <img src="/assets/mark.svg" alt="" width="40" height="40">
+          <div>
+            <h1>Safe Opportunity Checker</h1>
+            <p>Deterministic public alpha</p>
+          </div>
+        </div>
+        <div class="boundary-strip" aria-label="Safety boundaries">
+          <span>No storage</span>
+          <span>No AI calls</span>
+          <span>No reporting</span>
+        </div>
+      </header>
+
+      <section class="workspace" aria-label="Risk checker workspace">
+        <form id="analysis-form" class="input-pane">
+          <div class="field-header">
+            <label for="opportunity-text">Opportunity text</label>
+            <output id="character-count" for="opportunity-text">0 / 20000</output>
+          </div>
+          <textarea
+            id="opportunity-text"
+            name="text"
+            maxlength="20000"
+            spellcheck="true"
+            autocomplete="off"
+            autocapitalize="sentences"
+            required
+          ></textarea>
+          <div class="controls">
+            <label class="select-label" for="jurisdiction">Region</label>
+            <select id="jurisdiction" name="jurisdiction">
+              <option value="GLOBAL">Global generic</option>
+              <option value="US">United States</option>
+              <option value="CA">Canada</option>
+              <option value="GB">United Kingdom</option>
+              <option value="MX">Mexico</option>
+            </select>
+            <button type="submit" id="analyze-button">
+              Analyze
+            </button>
+          </div>
+          <div class="samples" aria-label="Synthetic samples">
+            <button type="button" data-sample="ordinary">Ordinary</button>
+            <button type="button" data-sample="fees">Fees</button>
+            <button type="button" data-sample="control">Control</button>
+            <button type="button" data-sample="injection">Injection</button>
+          </div>
+        </form>
+
+        <section class="result-pane" aria-live="polite" aria-label="Analysis result">
+          <div id="empty-state" class="empty-state">
+            <h2>Ready</h2>
+            <p>Paste or type text, then run the checker.</p>
+          </div>
+
+          <div id="result" class="result hidden">
+            <div class="score-row">
+              <div>
+                <p class="eyebrow">Risk level</p>
+                <h2 id="risk-level">Low</h2>
+              </div>
+              <div class="score-meter" aria-label="Risk score">
+                <span id="score-value">0</span>
+                <span>/100</span>
+              </div>
+            </div>
+
+            <div class="meter-track" aria-hidden="true">
+              <span id="meter-fill"></span>
+            </div>
+
+            <div class="section-block">
+              <h3>Matched indicators</h3>
+              <ul id="matched-rules" class="rule-list"></ul>
+            </div>
+
+            <div class="section-block">
+              <h3>Next steps</h3>
+              <ol id="next-steps" class="step-list"></ol>
+            </div>
+
+            <div class="safety-grid" aria-label="Analysis safety state">
+              <span id="storage-state">No raw storage</span>
+              <span id="ai-state">No AI calls</span>
+              <span id="report-state">No automated reporting</span>
+            </div>
+          </div>
+
+          <div id="error-state" class="error-state hidden" role="alert"></div>
+        </section>
+      </section>
+    </main>
+    <script src="/assets/app.js" type="module"></script>
+  </body>
+</html>

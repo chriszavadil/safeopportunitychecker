@@ -1,0 +1,90 @@
+openapi: 3.1.0
+info:
+  title: Safe Opportunity Checker MVP API
+  version: 0.1.0
+  summary: Deterministic opportunity risk analysis API.
+  description: >
+    Public alpha API for deterministic, rule-based safety indicators. The MVP
+    does not use external AI calls, persist raw submissions, log raw input,
+    search for suspects, scrape sources, identify people, or create automated
+    reports.
+servers:
+  - url: http://localhost:3000
+    description: Local development
+paths:
+  /healthz:
+    get:
+      summary: Health check
+      responses:
+        "200":
+          description: Server is healthy.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required:
+                  - ok
+                properties:
+                  ok:
+                    const: true
+  /v1/analyze:
+    post:
+      summary: Analyze user-submitted opportunity text.
+      description: >
+        Applies deterministic rules only. User-submitted text is untrusted data
+        and is not returned in the response.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+                - text
+              properties:
+                text:
+                  type: string
+                  minLength: 1
+                  maxLength: 20000
+                jurisdiction:
+                  type: string
+                  description: Optional broad region code or name. Generic MVP packs are returned.
+                locale:
+                  type: string
+                  description: Optional BCP 47-style locale.
+            examples:
+              caution:
+                summary: Synthetic caution example
+                value:
+                  text: Urgent travel job. We keep your passport and you pay a visa fee first.
+                  jurisdiction: GLOBAL
+                  locale: en-US
+      responses:
+        "200":
+          description: Analysis result.
+          headers:
+            cache-control:
+              schema:
+                type: string
+              description: Always no-store.
+            ratelimit-limit:
+              schema:
+                type: string
+            ratelimit-remaining:
+              schema:
+                type: string
+            ratelimit-reset:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: ../../schema/analysis-result.schema.json
+        "400":
+          description: Invalid request.
+        "413":
+          description: Request body or text is too large.
+        "429":
+          description: Too many requests for the ephemeral in-memory limiter.

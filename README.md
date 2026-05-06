@@ -28,6 +28,12 @@ Start the API:
 node apps/api/src/server.js
 ```
 
+Open the no-storage web UI:
+
+```text
+http://localhost:3000
+```
+
 Analyze text:
 
 ```powershell
@@ -41,6 +47,14 @@ Invoke-RestMethod -Method Post -Uri http://localhost:3000/v1/analyze -ContentTyp
 ```
 
 The successful response is an analysis result object that validates against `schema/analysis-result.schema.json`.
+
+API contract: `docs/api/openapi.yml`.
+
+Preview deployment notes: `docs/deployment/preview.md`.
+
+Production readiness notes: `docs/production-readiness.md`.
+
+Repository settings checklist: `docs/governance/repository-settings.md`.
 
 ## Safety Boundaries
 

@@ -69,3 +69,63 @@ test("POST /v1/analyze rejects invalid JSON without echoing body", async () => {
     await once(server, "close");
   }
 });
+
+test("GET / serves the no-storage web UI with security headers", async () => {
+  const server = createAnalysisApiServer({ rateLimit: false });
+  server.listen(0);
+  await once(server, "listening");
+
+  try {
+    const port = server.address().port;
+    const response = await fetch(`http://127.0.0.1:${port}/`);
+    const body = await response.text();
+
+    assert.equal(response.status, 200);
+    assert.equal(response.headers.get("cache-control"), "no-store");
+    assert.equal(response.headers.get("x-frame-options"), "DENY");
+    assert.match(response.headers.get("content-security-policy"), /default-src 'self'/);
+    assert.match(body, /Safe Opportunity Checker/);
+    assert.doesNotMatch(body, /localStorage|sessionStorage|indexedDB/);
+  } finally {
+    server.close();
+    await once(server, "close");
+  }
+});
+
+test("POST /v1/analyze applies an ephemeral in-memory rate limit", async () => {
+  const server = createAnalysisApiServer({
+    rateLimit: {
+      limit: 1,
+      windowMs: 60_000
+    }
+  });
+  server.listen(0);
+  await once(server, "listening");
+
+  try {
+    const port = server.address().port;
+    const request = () => fetch(`http://127.0.0.1:${port}/v1/analyze`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify({
+        text: "Pay visa fee first.",
+        jurisdiction: "GLOBAL",
+        locale: "en-US"
+      })
+    });
+
+    const first = await request();
+    const second = await request();
+    const body = await second.text();
+
+    assert.equal(first.status, 200);
+    assert.equal(second.status, 429);
+    assert.equal(body.includes("Pay visa fee first"), false);
+    assert.equal(second.headers.get("ratelimit-limit"), "1");
+  } finally {
+    server.close();
+    await once(server, "close");
+  }
+});

@@ -22,8 +22,5 @@ jobs:
         with:
           node-version: 24
 
-      - name: Run tests
-        run: node --test
-
-      - name: Run repository safety gate
-        run: node scripts/safety-gate.js
+      - name: Run CI
+        run: node scripts/ci.js

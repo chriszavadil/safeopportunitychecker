@@ -58,6 +58,11 @@ const FORBIDDEN_RUNTIME_PATTERNS = [
   { label: "unsafe capability marked used", pattern: /\b(?:externalAiUsed|persistentStorageUsed|rawInputLogged|automatedReferralCreated|rawInputStored|includedRawInput|emergencyRoutingEnabled)\s*:\s*true\b/ }
 ];
 
+const FORBIDDEN_BROWSER_PATTERNS = [
+  { label: "browser storage", pattern: /\b(?:localStorage|sessionStorage|indexedDB)\b/ },
+  { label: "external browser request", pattern: /\bfetch\s*\(\s*["']https?:\/\//i }
+];
+
 const ALLOWED_EMAIL_DOMAINS = new Set([
   "example.com",
   "example.org",
@@ -93,6 +98,10 @@ for (const file of files) {
   if (isRuntimeFile(rel)) {
     scanRuntimeBoundaries(rel, text);
   }
+
+  if (isBrowserFile(rel)) {
+    scanBrowserBoundaries(rel, text);
+  }
 }
 
 if (findings.length > 0) {
@@ -113,6 +122,12 @@ function scanSecrets(file, text) {
 
 function scanRuntimeBoundaries(file, text) {
   for (const { label, pattern } of FORBIDDEN_RUNTIME_PATTERNS) {
+    reportMatches(file, text, pattern, label);
+  }
+}
+
+function scanBrowserBoundaries(file, text) {
+  for (const { label, pattern } of FORBIDDEN_BROWSER_PATTERNS) {
     reportMatches(file, text, pattern, label);
   }
 }
@@ -157,6 +172,10 @@ function isRuntimeFile(rel) {
     || rel.startsWith("packages/risk-engine/src/")
     || rel.startsWith("packages/redaction/src/")
     || rel.startsWith("schema/");
+}
+
+function isBrowserFile(rel) {
+  return rel.startsWith("apps/web/");
 }
 
 function isTextFile(file) {
