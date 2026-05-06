@@ -1,0 +1,6 @@
+{
+  "name": "@safe-opportunity-checker/risk-engine",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "src/index.js"
+}

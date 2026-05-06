@@ -1,0 +1,13 @@
+{
+  "name": "safe-opportunity-checker-enterprise-v3",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "ci": "node scripts/ci.js",
+    "demo": "node scripts/demo.js",
+    "safety:gate": "node scripts/safety-gate.js",
+    "test": "node --test",
+    "start:api": "node apps/api/src/server.js"
+  }
+}

@@ -1,0 +1,29 @@
+name: Safety boundary concern
+description: Report a public safety-boundary issue without private details.
+title: "[Safety]: "
+labels:
+  - safety
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not post private data or exploit details publicly. If the concern involves raw input exposure, credentials, or a bypass that could harm people, use a private security advisory instead.
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Public privacy check
+      options:
+        - label: I confirm this public issue contains no real private information, credentials, screenshots, logs, exports, or actionable exploit details.
+          required: true
+  - type: textarea
+    id: concern
+    attributes:
+      label: Concern
+      description: Describe the boundary concern at a high level.
+    validations:
+      required: true
+  - type: textarea
+    id: suggested_fix
+    attributes:
+      label: Suggested fix
+      description: Optional, non-sensitive suggestions.

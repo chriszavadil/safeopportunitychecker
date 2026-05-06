@@ -1,0 +1,46 @@
+name: Risk rule request
+description: Suggest a deterministic safety indicator using synthetic examples only.
+title: "[Rule]: "
+labels:
+  - risk-rule
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this only for public, non-sensitive, synthetic examples. Do not name real people, organizations, accounts, locations, or cases.
+  - type: checkboxes
+    id: boundaries
+    attributes:
+      label: Safety boundary check
+      options:
+        - label: I confirm this request contains no real private information or identifiers.
+          required: true
+        - label: This request does not ask for suspect search, doxxing, scraping, baiting, facial recognition, or automated reporting.
+          required: true
+        - label: This request is for deterministic rule-based analysis only.
+          required: true
+  - type: textarea
+    id: indicator
+    attributes:
+      label: Indicator
+      description: Describe the language pattern using synthetic wording only.
+    validations:
+      required: true
+  - type: textarea
+    id: non_accusatory_guidance
+    attributes:
+      label: Non-accusatory guidance
+      description: Suggest user-facing guidance that avoids conclusions about crimes or people.
+    validations:
+      required: true
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Suggested severity
+      options:
+        - low
+        - medium
+        - high
+        - critical
+    validations:
+      required: true

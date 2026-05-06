@@ -1,0 +1,32 @@
+# Dependencies and build output
+node_modules/
+coverage/
+dist/
+build/
+.turbo/
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa
+id_ed25519
+secrets/
+private/
+
+# Local logs and scratch data
+*.log
+logs/
+tmp/
+temp/
+.cache/
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

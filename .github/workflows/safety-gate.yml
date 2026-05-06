@@ -1,0 +1,29 @@
+name: Safety Gate
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  safety-gate:
+    name: Tests and safety gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Run tests
+        run: node --test
+
+      - name: Run repository safety gate
+        run: node scripts/safety-gate.js

@@ -1,0 +1,16 @@
+standards:
+  deterministic_only: true
+  external_ai_calls: false
+  persistent_storage: false
+  raw_input_logging: false
+  suspect_search: false
+  doxxing: false
+  scraping: false
+  baiting: false
+  facial_recognition: false
+  automated_reporting:
+    police: false
+    immigration: false
+    employer: false
+    platform: false
+  criminal_accusation_language: false

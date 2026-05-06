@@ -1,0 +1,42 @@
+name: Bug report
+description: Report a product bug using synthetic examples only.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not include real survivor, witness, recruiter, employer, partner, platform, police, immigration, or case information. Use synthetic or reserved examples only.
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Public privacy check
+      options:
+        - label: I confirm this issue contains no real private information, screenshots, logs, exports, secrets, or identifiers.
+          required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What happened?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction with synthetic data
+      description: Use reserved examples such as person@example.com and 202-555-0100.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: tests
+    attributes:
+      label: Tests or safety gate output
+      description: Paste non-sensitive command output only.

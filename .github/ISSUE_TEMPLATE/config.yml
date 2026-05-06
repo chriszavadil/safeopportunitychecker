@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security or private-data concern
+    url: https://github.com/chriszavadil/safeopportunitychecker/security/advisories/new
+    about: Do not post private survivor data, credentials, screenshots, or sensitive operational details in public issues.

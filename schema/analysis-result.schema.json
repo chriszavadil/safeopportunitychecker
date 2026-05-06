@@ -1,0 +1,371 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://safe-opportunity-checker.local/schema/analysis-result.schema.json",
+  "title": "Safe Opportunity Checker MVP Analysis Result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "analyzer",
+    "inputSummary",
+    "score",
+    "matchedRules",
+    "guidance",
+    "partnerTriage",
+    "evidencePackaging",
+    "jurisdictionResourcePack",
+    "restrictedPatternIntelligence",
+    "safety"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0.0"
+    },
+    "analyzer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "mode",
+        "externalAiUsed",
+        "persistentStorageUsed",
+        "rawInputLogged"
+      ],
+      "properties": {
+        "name": {
+          "const": "safe-opportunity-checker-mvp"
+        },
+        "mode": {
+          "const": "deterministic-rules"
+        },
+        "externalAiUsed": {
+          "const": false
+        },
+        "persistentStorageUsed": {
+          "const": false
+        },
+        "rawInputLogged": {
+          "const": false
+        }
+      }
+    },
+    "inputSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "textCharacters",
+        "wasTruncated",
+        "locale",
+        "jurisdictionProvided"
+      ],
+      "properties": {
+        "textCharacters": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 20000
+        },
+        "wasTruncated": {
+          "const": false
+        },
+        "locale": {
+          "type": "string"
+        },
+        "jurisdictionProvided": {
+          "type": "boolean"
+        }
+      }
+    },
+    "score": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "max",
+        "level",
+        "boundaries"
+      ],
+      "properties": {
+        "value": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "max": {
+          "const": 100
+        },
+        "level": {
+          "enum": [
+            "low",
+            "caution",
+            "elevated",
+            "urgent"
+          ]
+        },
+        "boundaries": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "level",
+              "min",
+              "max"
+            ],
+            "properties": {
+              "level": {
+                "enum": [
+                  "low",
+                  "caution",
+                  "elevated",
+                  "urgent"
+                ]
+              },
+              "min": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "max": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100
+              }
+            }
+          }
+        }
+      }
+    },
+    "matchedRules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "title",
+          "category",
+          "severity",
+          "weight",
+          "signals",
+          "guidance"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "severity": {
+            "enum": [
+              "low",
+              "medium",
+              "high",
+              "critical"
+            ]
+          },
+          "weight": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "signals": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "guidance": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "guidance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "summary",
+        "matchedIndicatorTitles",
+        "nextSteps",
+        "hotlineSuggestion",
+        "disclaimer"
+      ],
+      "properties": {
+        "summary": {
+          "type": "string"
+        },
+        "matchedIndicatorTitles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "nextSteps": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "hotlineSuggestion": {
+          "type": "string"
+        },
+        "disclaimer": {
+          "type": "string"
+        }
+      }
+    },
+    "partnerTriage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reviewSuggested",
+        "urgency",
+        "consentRequired",
+        "automatedReferralCreated"
+      ],
+      "properties": {
+        "reviewSuggested": {
+          "type": "boolean"
+        },
+        "urgency": {
+          "enum": [
+            "routine",
+            "soon",
+            "priority",
+            "immediate_safety"
+          ]
+        },
+        "consentRequired": {
+          "const": true
+        },
+        "automatedReferralCreated": {
+          "const": false
+        }
+      }
+    },
+    "evidencePackaging": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "consentRequired",
+        "rawInputStored",
+        "includedRawInput"
+      ],
+      "properties": {
+        "status": {
+          "const": "metadata_only_mvp"
+        },
+        "consentRequired": {
+          "const": true
+        },
+        "rawInputStored": {
+          "const": false
+        },
+        "includedRawInput": {
+          "const": false
+        }
+      }
+    },
+    "jurisdictionResourcePack": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "packId",
+        "status",
+        "emergencyRoutingEnabled"
+      ],
+      "properties": {
+        "packId": {
+          "type": "string"
+        },
+        "status": {
+          "const": "generic_mvp"
+        },
+        "emergencyRoutingEnabled": {
+          "const": false
+        }
+      }
+    },
+    "restrictedPatternIntelligence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "enabled",
+        "used",
+        "reason"
+      ],
+      "properties": {
+        "enabled": {
+          "const": false
+        },
+        "used": {
+          "const": false
+        },
+        "reason": {
+          "type": "string"
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "noExternalAiCalls",
+        "noPersistentStorage",
+        "noRawInputLogging",
+        "noSuspectSearch",
+        "noDoxxing",
+        "noScraping",
+        "noBaiting",
+        "noFacialRecognition",
+        "noAutomatedReporting",
+        "noCriminalAccusationLanguage",
+        "userTextTreatedAsUntrusted"
+      ],
+      "properties": {
+        "noExternalAiCalls": {
+          "const": true
+        },
+        "noPersistentStorage": {
+          "const": true
+        },
+        "noRawInputLogging": {
+          "const": true
+        },
+        "noSuspectSearch": {
+          "const": true
+        },
+        "noDoxxing": {
+          "const": true
+        },
+        "noScraping": {
+          "const": true
+        },
+        "noBaiting": {
+          "const": true
+        },
+        "noFacialRecognition": {
+          "const": true
+        },
+        "noAutomatedReporting": {
+          "const": true
+        },
+        "noCriminalAccusationLanguage": {
+          "const": true
+        },
+        "userTextTreatedAsUntrusted": {
+          "const": true
+        }
+      }
+    }
+  }
+}
