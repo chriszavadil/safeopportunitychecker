@@ -24,3 +24,6 @@ jobs:
 
       - name: Run CI
         run: node scripts/ci.js
+
+      - name: Build Docker image
+        run: docker build -t safe-opportunity-checker:ci .

@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: safe-opportunity-checker
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /healthz
+    autoDeployTrigger: checksPass
+    envVars:
+      - key: NODE_ENV
+        value: production

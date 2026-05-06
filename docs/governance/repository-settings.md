@@ -9,6 +9,7 @@ Protect `main`:
 - Require pull requests before merge.
 - Require status checks to pass.
 - Require the `Safety Gate` workflow.
+- Require the `CodeQL` workflow once it has run successfully on `main`.
 - Require conversation resolution.
 - Block force pushes.
 - Block branch deletion.
